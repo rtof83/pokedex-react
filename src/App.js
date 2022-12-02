@@ -6,11 +6,12 @@ import './css/pokedex.css';
 import './css/global.css';
 
 const App = () => {
+  const pokemons = 10;
+
   const [ page, setPage ] = useState(1);
-  const [ pokemons, setPokemons ] = useState(10);
   const [ total, setTotal ] = useState(0);
-  const [ data, setData ] = useState([]);
   const [ list, setList ] = useState('');
+  const [ loading, setLoading ] = useState(false);
 
   // const getPokemonDetail = async (pokemon) => {
   //   await api.get(`/${pokemon}`)
@@ -49,9 +50,14 @@ const App = () => {
   };
 
   const pokemonList = async () => {
+    setLoading(true);
+
     const urlList = [];
 
-    for (let i = 1; i <= pokemons; i++) { urlList.push(await api.get(`/${i}`)) };
+    const end = page * pokemons;
+    const start = end - (pokemons - 1);
+
+    for (let i = start; i <= end; i++) { urlList.push(await api.get(`/${i}`)) };
 
     await Promise.all(urlList)
       .then((result) => {
@@ -96,20 +102,26 @@ const App = () => {
 //              alt="" />
 //     </div>
 // </li> )
+
+    setLoading(false);
   };
 
   useEffect(() => {
     // getPokemonDetail(1);
-    // pokemonList();
-
     getTotalPages();
-
+    // pokemonList();
   }, []);
+
+  useEffect(() => {
+    pokemonList();
+  }, [page]);
 
 
   return (
     <section class="content">
         <h1>Pokedex</h1>
+
+        { loading ? <h3>carregando...</h3> : <>
 
         <ol id="pokemonList" class="pokemons">
 
@@ -149,6 +161,8 @@ const App = () => {
           <Button sx={{ mr: 1.5 }} variant="outlined" onClick={() => CountPage('decrease', page, data, setPage)}>{'<'}</Button>Página {item.page} de {item.from}
           <Button sx={{ ml: 1.5 }} variant="outlined" onClick={() => CountPage('increase', page, data, setPage)}>{'>'}</Button>
         </StyledTableCell> */}
+
+      </> }
 
     </section>
   );
