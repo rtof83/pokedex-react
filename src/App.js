@@ -1,30 +1,31 @@
 import { useEffect, useState } from 'react';
 import api from './api';
+import CountPage from './components/CountPage';
 
 import './css/pokedex.css';
 import './css/global.css';
 
 const App = () => {
-  const [ page, setPage ] = useState(0);
+  const [ page, setPage ] = useState(1);
   const [ pokemons, setPokemons ] = useState(10);
   const [ total, setTotal ] = useState(0);
   const [ data, setData ] = useState([]);
   const [ list, setList ] = useState('');
 
-  const getPokemonDetail = async (pokemon) => {
-    await api.get(`/${pokemon}`)
-      .then(({ data }) => {
-        console.log(data.types[0].type.name);
-        setData(data);
-      })
-      .then(() => pokemonList)
-      .catch(e => console.log(e));
-  };
+  // const getPokemonDetail = async (pokemon) => {
+  //   await api.get(`/${pokemon}`)
+  //     .then(({ data }) => {
+  //       console.log(data.types[0].type.name);
+  //       setData(data);
+  //     })
+  //     .then(() => pokemonList)
+  //     .catch(e => console.log(e));
+  // };
 
-  const getTotal = async () => {
+  const getTotalPages = async () => {
     await api.get()
       .then(({ data }) => {
-      setTotal(data.count);
+      setTotal(Math.ceil(data.count / pokemons));
       })
       .catch(e => console.log(e));
   };
@@ -99,7 +100,9 @@ const App = () => {
 
   useEffect(() => {
     // getPokemonDetail(1);
-    pokemonList();
+    // pokemonList();
+
+    getTotalPages();
 
   }, []);
 
@@ -137,10 +140,15 @@ const App = () => {
         </ol>
 
         <div class="pagination">
-            <button id="loadMoreButton" type="button">
-                Load More
-            </button>
+          <button onClick={() => CountPage('decrease', page, total, setPage)}>{'<'}</button>Página {page} de {total}
+          <button onClick={() => CountPage('increase', page, total, setPage)}>{'>'}</button>
         </div>
+
+
+        {/* <StyledTableCell colSpan={7} align="center">
+          <Button sx={{ mr: 1.5 }} variant="outlined" onClick={() => CountPage('decrease', page, data, setPage)}>{'<'}</Button>Página {item.page} de {item.from}
+          <Button sx={{ ml: 1.5 }} variant="outlined" onClick={() => CountPage('increase', page, data, setPage)}>{'>'}</Button>
+        </StyledTableCell> */}
 
     </section>
   );
