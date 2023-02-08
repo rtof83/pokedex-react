@@ -147,6 +147,20 @@
     cursor: pointer;
 }
 
+.modal {
+    position: absolute;
+    margin-top: 50%;
+    margin-left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 50%;
+    background-color: white;
+    border: 2px solid #000;
+    box-shadow: 24;
+    border-radius: 1rem;
+    padding: 2rem;
+}
+
 @media screen and (min-width: 380px) {
     .pokemons {
         grid-template-columns: 1fr 1fr;
