@@ -15,5 +15,6 @@
 ### References:
 - [digitalinnovationone/js-developer-pokedex](https://github.com/digitalinnovationone/js-developer-pokedex)
 
+<br>
 
 ![alt tag](https://hermes.digitalinnovation.one/assets/diome/logo.png)
