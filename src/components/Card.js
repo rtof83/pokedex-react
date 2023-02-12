@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
-import { ListContext, ShowModalContext } from '../contexts/Contexts';
+import { ListContext } from '../contexts/Contexts';
 
 const Card = () => {
-    const [ , setShowModal ] = useContext(ShowModalContext);
-    const [ list, setList ] = useContext(ListContext);
+    const [ list ] = useContext(ListContext);
 
     return (
         <>
